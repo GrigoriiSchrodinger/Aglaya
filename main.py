@@ -6,11 +6,13 @@ from aiogram import Bot
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
+from handlers.download import command_download
 from handlers.start import command_start_handler
 from utils.conf import TOKEN, DP
 
 commands_handlers = [
-    command_start_handler
+    command_start_handler,
+    command_download
 ]
 
 
