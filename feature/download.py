@@ -31,11 +31,11 @@ class DownloadManager:
         # Удаляем расширение .mp4 из id_name для правильного формирования имени файла
         base_name = os.path.splitext(self.id_name)[0]
         if self.resolution == "quality_low":
-            self.resolution = "bestvideo[height<=720]+bestaudio/best[height<=720]"
+            self.resolution = "bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720]"
         elif self.resolution == "quality_medium":
-            self.resolution = "bestvideo[height<=1080]+bestaudio/best[height<=1080]"
+            self.resolution = "bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[height<=1080]"
         elif self.resolution == "quality_high":
-            self.resolution = "bestvideo+bestaudio/best"
+            self.resolution = "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best"
 
         ydl_opts = {
             'format': self.resolution,
@@ -43,10 +43,7 @@ class DownloadManager:
             'quiet': True,
             'outtmpl': os.path.join(self.output_path, f"{base_name}.%(ext)s"),  # Используем base_name
             'progress_hooks': [self.progress_hook],
-            'postprocessors': [{
-                'key': 'FFmpegVideoConvertor',
-                'preferedformat': 'mp4',
-            }],
+            'merge_output_format': 'mp4'
         }
         return yt_dlp.YoutubeDL(ydl_opts)
 
